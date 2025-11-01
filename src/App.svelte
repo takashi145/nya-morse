@@ -2,5 +2,5 @@
 </script>
 
 <main>
-  <div></div>
+  <div class="text-3xl">aaa</div>
 </main>
