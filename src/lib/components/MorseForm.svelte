@@ -175,8 +175,8 @@
           <p class="text-gray-400 italic">ここに変換結果が表示されます</p>
         {:else}
           <div class="flex items-center justify-between">
-            <div class="flex-1 text-center">
-              <p class="font-bold">{translatedText}</p>
+            <div class="mx-20 md:mx-24 flex-1 text-center">
+              <p class="font-bold text-sm md:text-base">{translatedText}</p>
             </div>
             <button
               on:click={() => copyToClipboard(translatedText, "変換結果")}
@@ -209,7 +209,7 @@
         <img
           src="/images/cat_walk.png"
           alt="猫歩き"
-          class="absolute left-0 bottom-0 w-12 md:w-20 -mb-0.5 md:-mb-1 ml-2"
+          class="absolute left-0 bottom-0 w-14 md:w-20 -mb-0.5 md:-mb-1 ml-2"
         />
       </div>
 
@@ -242,7 +242,9 @@
             >
               {#if codeArray.length > 0}
                 {#each codeArray as code}
-                  <div class="mx-3 my-1 font-bold underline">
+                  <div
+                    class="mx-3 my-1 font-bold underline text-sm md:text-base"
+                  >
                     {code}
                   </div>
                 {/each}
