@@ -1,5 +1,9 @@
 <script lang="ts">
   import MorseForm from "./lib/components/MorseForm.svelte";
+  import morseJson from "./lib/assets/data/data.json";
+  import type { MorseData } from "./lib/types";
+
+  const morseData: MorseData = morseJson;
 </script>
 
 <div>
@@ -15,7 +19,7 @@
   <main class="min-h-screen">
     <div class="my-8">
       <div class="max-w-5xl mx-auto bg-white shadow rounded-lg">
-        <MorseForm />
+        <MorseForm {morseData} />
         <div class="flex justify-end px-8">
           <img src="/images/cat_nobi.png" alt="猫伸び" class="w-16 md:w-24" />
         </div>
