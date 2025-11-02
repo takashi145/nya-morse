@@ -369,7 +369,9 @@
         on:touchstart={startPress}
         on:touchend={endPress}
         on:touchmove|preventDefault
-        class="rounded-full bg-orange-400 p-4 text-white hover:bg-orange-500 no-select active:bg-orange-500 shadow-xl active:shadow-none transform transition-transform duration-100 cursor-pointer"
+        class="rounded-full p-4 text-white no-select transform transition-all duration-100 cursor-pointer {isPressed
+          ? 'bg-orange-500 shadow-none scale-90'
+          : 'bg-orange-400 hover:bg-orange-500 shadow-xl scale-100'}"
         aria-label="肉球ボタン"
       >
         <svg
