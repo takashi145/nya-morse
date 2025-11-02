@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
+  import { fade } from "svelte/transition";
   import morseJson from "$lib/assets/data/data.json";
 
   interface MorseTable {
@@ -137,15 +138,14 @@
       <!-- 入力値の表示欄-->
       <div class="md:text-xl">
         <!-- エラーメッセージの表示 -->
-        <transition name="fade">
-          {#if errorMessage !== ""}
-            <div
-              class="absolute top-0 right-0 mt-2 mr-2 p-2 bg-red-100 rounded shadow"
-            >
-              <p class="text-sm text-red-500">{errorMessage}</p>
-            </div>
-          {/if}
-        </transition>
+        {#if errorMessage !== ""}
+          <div
+            class="absolute top-0 right-0 mt-2 mr-2 p-2 bg-red-100 rounded shadow"
+            transition:fade
+          >
+            <p class="text-sm text-red-500">{errorMessage}</p>
+          </div>
+        {/if}
 
         <div
           class="mb-3 mx-16 md:mx-20 flex flex-wrap items-center justify-center"
