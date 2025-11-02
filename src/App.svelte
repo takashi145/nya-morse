@@ -3,7 +3,12 @@
 
 <div>
   <header class="p-3 bg-white shadow-md flex justify-center">
-    <img src="/images/logo.png" alt="にゃーるす信号" class="w-28" />
+    <img
+      src="/images/logo.png"
+      alt="にゃーるす信号"
+      class="w-28"
+      fetchpriority="high"
+    />
   </header>
 
   <main class="min-h-screen">
