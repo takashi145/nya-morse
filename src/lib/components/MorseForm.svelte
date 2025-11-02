@@ -116,6 +116,13 @@
     }
   };
 
+  const clearCode = () => {
+    if (!confirm("入力符号をクリアしますか？")) return;
+
+    code = "";
+    currentLetter = "";
+  };
+
   onMount(() => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
@@ -138,8 +145,32 @@
     <div
       class="relative mx-auto mb-8 w-full max-w-4xl rounded bg-white p-4 text-center"
     >
+      <!-- 削除ボタン -->
+      {#if codeArray.length > 0}
+        <button
+          on:click={clearCode}
+          aria-label="入力符号をクリア"
+          class="absolute top-0 right-0 cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6 text-gray-500 hover:text-gray-600"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18 18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      {/if}
+
       <!-- 変換結果の表示欄 -->
-      <div class="md:text-xl mb-4 relative">
+      <div class="md:text-xl mt-8 mb-4 relative">
         {#if translatedText === ""}
           <p class="text-gray-400 italic">ここに変換結果が表示されます</p>
         {:else}
