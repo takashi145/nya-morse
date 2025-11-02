@@ -152,6 +152,23 @@
 </script>
 
 <div class="relative">
+  <div class="text-sm p-3 text-center flex items-center text-gray-800 mb-3">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      class="size-5 mr-1"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M19.114 5.636a9 9 0 0 1 0 12.728M16.463 8.288a5.25 5.25 0 0 1 0 7.424M6.75 8.25l4.72-4.72a.75.75 0 0 1 1.28.53v15.88a.75.75 0 0 1-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.009 9.009 0 0 1 2.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75Z"
+      />
+    </svg>
+    ボタンクリック時に音が流れます。音量に注意してください。
+  </div>
   <div class="mx-auto mb-8 p-4 md:p-8 max-w-4xl">
     <div class="flex justify-center items-center gap-4 mb-8">
       <!-- モード選択ボタン -->
@@ -404,10 +421,46 @@
       </button>
     </div>
 
-    <p class="text-center text-gray-500">
-      <b class="text-orange-400">肉球ボタン</b> または
-      <b class="text-orange-400">Spaceキー</b> で入力できます
-    </p>
+    <div class="text-center space-y-8">
+      <p class="text-gray-500">
+        <b class="text-orange-400">肉球ボタン</b> または
+        <b class="text-orange-400">Spaceキー</b> で入力できます
+      </p>
+
+      <!-- 音声再生に関する注意書き -->
+      <div
+        class="mx-auto max-w-2xl bg-yellow-50 border border-yellow-200 rounded-lg p-4"
+      >
+        <div class="flex items-start gap-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6 text-orange-400"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+            />
+          </svg>
+
+          <div class="text-left">
+            <p class="text-sm font-semibold text-yellow-800 mb-1">
+              音声再生についての注意
+            </p>
+            <p class="text-xs text-yellow-700 leading-relaxed">
+              ブラウザのセキュリティポリシーにより、<stron
+                >1回目のクリックでは音が鳴らない場合があります。</stron
+              ><br />
+              これはブラウザの仕様によるものです。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
