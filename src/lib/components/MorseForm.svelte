@@ -13,7 +13,11 @@
     number: MorseTable;
   }
 
+  type Mode = "en" | "ja";
+
   const morseData: MorseData = morseJson;
+  const morseDataJa: MorseTable = { ...morseData.ja, ...morseData.number };
+  const morseDataEn: MorseTable = { ...morseData.en, ...morseData.number };
   const dotThreshold = 200; // 短い音と判定する時間（ミリ秒）
   const characterTimeout = 700; // 文字の区切りと判定する時間（ミリ秒）
 
@@ -26,14 +30,17 @@
   let currentLetter = ""; // 現在入力中の文字
   let letterTimeout: ReturnType<typeof setTimeout> | null = null;
   let copyMessage: string = "";
+  let mode: Mode = "en";
 
   // 入力された符号をスペースで分割して配列に変換
   $: codeArray = code.trim() ? code.trim().split(" ") : [];
 
   // 符号を翻訳
   $: translatedText = (() => {
-    return codeArray.map((code) => morseData.en[code] || "").join(" ");
+    return codeArray.map((code) => currentMorseData[code] || "").join(" ");
   })();
+
+  $: currentMorseData = mode === "ja" ? morseDataJa : morseDataEn;
 
   // キーが押されたときの処理
   const startPress = async (event: Event) => {
@@ -74,7 +81,7 @@
     // 文字の区切り判定タイマーをセット
     // characterTimeoutミリ秒間入力がなければ文字を確定
     letterTimeout = setTimeout(() => {
-      if (morseData.en[currentLetter] === void 0) {
+      if (currentMorseData[currentLetter] === void 0) {
         // 対応する文字が存在しない場合はエラーメッセージを表示
         errorMessage = "対応する文字が存在しませんでした";
         setTimeout(() => {
@@ -142,6 +149,30 @@
 
 <div>
   <div class="mx-auto mb-8 p-4 md:p-8 max-w-4xl">
+    <!-- モード選択 -->
+    <div>
+      <label class="mr-4">
+        <input
+          type="radio"
+          name="mode"
+          value="en"
+          bind:group={mode}
+          class="mr-1"
+        />
+        欧文
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="mode"
+          value="ja"
+          bind:group={mode}
+          class="mr-1"
+        />
+        和文
+      </label>
+    </div>
+
     <div
       class="relative mx-auto mb-8 w-full max-w-4xl rounded bg-white p-4 text-center"
     >
