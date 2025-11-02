@@ -13,8 +13,13 @@
   </header>
 
   <main class="min-h-screen">
-    <div class="max-w-5xl my-8 mx-auto bg-white p-4 shadow rounded-lg">
-      <MorseForm />
+    <div class="my-8">
+      <div class="max-w-5xl mx-auto bg-white shadow rounded-lg">
+        <MorseForm />
+        <div class="flex justify-end px-8">
+          <img src="/images/cat_nobi.png" alt="猫伸び" class="w-16 md:w-24" />
+        </div>
+      </div>
     </div>
   </main>
 

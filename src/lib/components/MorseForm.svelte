@@ -141,7 +141,7 @@
 </script>
 
 <div>
-  <div class="mx-auto mb-8 p-8 max-w-4xl">
+  <div class="mx-auto mb-8 p-4 md:p-8 max-w-4xl">
     <div
       class="relative mx-auto mb-8 w-full max-w-4xl rounded bg-white p-4 text-center"
     >
@@ -204,7 +204,14 @@
       </div>
 
       <!-- 表示欄の区切り -->
-      <div class="border-t border-gray-500 mb-4"></div>
+      <div class="relative mb-4">
+        <div class="border-t border-gray-500"></div>
+        <img
+          src="/images/cat_walk.png"
+          alt="猫歩き"
+          class="absolute left-0 bottom-0 w-12 md:w-20 -mb-0.5 md:-mb-1 ml-2"
+        />
+      </div>
 
       <!-- 入力値の表示欄-->
       <div class="md:text-xl">
