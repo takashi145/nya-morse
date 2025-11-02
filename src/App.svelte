@@ -1,4 +1,5 @@
 <script lang="ts">
+  import MorseForm from "./lib/components/MorseForm.svelte";
 </script>
 
 <div>
@@ -12,7 +13,9 @@
   </header>
 
   <main class="min-h-screen">
-    <div class="max-w-5xl my-8 mx-auto bg-white p-4 shadow rounded-lg">a</div>
+    <div class="max-w-5xl my-8 mx-auto bg-white p-4 shadow rounded-lg">
+      <MorseForm />
+    </div>
   </main>
 
   <footer class="bg-white p-3">
