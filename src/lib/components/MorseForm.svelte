@@ -243,7 +243,7 @@
               {#if codeArray.length > 0}
                 {#each codeArray as code}
                   <div
-                    class="mx-3 my-1 font-bold underline text-sm md:text-base"
+                    class="mx-2 my-1 font-bold underline text-sm md:text-base"
                   >
                     {code}
                   </div>
