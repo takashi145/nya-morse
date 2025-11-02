@@ -25,6 +25,7 @@
   let isPressed = false;
   let currentLetter = ""; // 現在入力中の文字
   let letterTimeout: ReturnType<typeof setTimeout> | null = null;
+  let copyMessage: string = "";
 
   // 入力された符号をスペースで分割して配列に変換
   $: codeArray = code.trim() ? code.trim().split(" ") : [];
@@ -101,6 +102,20 @@
     }
   };
 
+  // コピー
+  const copyToClipboard = async (text: string, label: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      copyMessage = `${label}をコピーしました`;
+    } catch (error) {
+      copyMessage = "コピーに失敗しました";
+    } finally {
+      setTimeout(() => {
+        copyMessage = "";
+      }, 2000);
+    }
+  };
+
   onMount(() => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
@@ -124,11 +139,36 @@
       class="relative mx-auto mb-8 w-full max-w-4xl rounded bg-white p-4 text-center"
     >
       <!-- 変換結果の表示欄 -->
-      <div class="md:text-xl mb-4">
+      <div class="md:text-xl mb-4 relative">
         {#if translatedText === ""}
           <p class="text-gray-400 italic">ここに変換結果が表示されます</p>
         {:else}
-          <p class="font-bold">{translatedText}</p>
+          <div class="flex items-center justify-between">
+            <div class="flex-1 text-center">
+              <p class="font-bold">{translatedText}</p>
+            </div>
+            <button
+              on:click={() => copyToClipboard(translatedText, "変換結果")}
+              class="text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-50 transition-colors disabled:opacity-50"
+              aria-label="変換結果をコピー"
+              disabled={translatedText === "" || copyMessage !== ""}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+                />
+              </svg>
+            </button>
+          </div>
         {/if}
       </div>
 
@@ -147,17 +187,57 @@
           </div>
         {/if}
 
-        <div
-          class="mb-3 mx-16 md:mx-20 flex flex-wrap items-center justify-center"
-        >
+        <!-- コピー成功メッセージの表示 -->
+        {#if copyMessage !== ""}
+          <div
+            class="absolute top-0 right-0 mt-2 ml-2 p-2 bg-green-100 rounded shadow"
+            transition:fade
+          >
+            <p class="text-sm text-green-600">{copyMessage}</p>
+          </div>
+        {/if}
+
+        <div class="mb-3 flex items-center justify-between">
+          <div class="flex-1 flex justify-center">
+            <div
+              class="mx-16 md:mx-20 flex flex-wrap items-center justify-center"
+            >
+              {#if codeArray.length > 0}
+                {#each codeArray as code}
+                  <div class="mx-3 my-1 font-bold underline">
+                    {code}
+                  </div>
+                {/each}
+              {:else}
+                <div class="text-gray-400 italic">入力された符号</div>
+              {/if}
+            </div>
+          </div>
+
           {#if codeArray.length > 0}
-            {#each codeArray as code}
-              <div class="mx-3 my-1 font-bold underline">
-                {code}
-              </div>
-            {/each}
+            <button
+              on:click={() => copyToClipboard(code.trim(), "入力符号")}
+              class="text-orange-400 hover:text-orange-500 p-1 rounded hover:bg-orange-50 transition-colors disabled:opacity-50"
+              aria-label="入力符号をコピー"
+              disabled={code.trim() === "" || copyMessage !== ""}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"
+                />
+              </svg>
+            </button>
           {:else}
-            <div class="text-gray-400 italic">入力された符号</div>
+            <div class="w-9"></div>
           {/if}
         </div>
       </div>
