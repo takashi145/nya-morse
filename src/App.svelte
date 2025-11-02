@@ -7,7 +7,7 @@
 </script>
 
 <div>
-  <header class="p-3 bg-white shadow-md flex justify-center">
+  <header class="p-2 bg-white shadow-md flex justify-center">
     <img
       src="/images/logo.png"
       alt="にゃーるす信号"
@@ -17,7 +17,7 @@
   </header>
 
   <main class="min-h-screen">
-    <div class="my-8">
+    <div class="pt-16">
       <div class="max-w-5xl mx-auto bg-white shadow rounded-lg">
         <MorseForm {morseData} />
         <div class="flex justify-end px-8">
