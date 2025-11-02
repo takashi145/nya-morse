@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import MorseTable from "$lib/components/MorseTable.svelte";
+  import MorseTable from "./MorseTable.svelte";
   import type { Mode, MorseData, MorseTable as MorseTableType } from "../types";
 
   export let morseData: MorseData;
