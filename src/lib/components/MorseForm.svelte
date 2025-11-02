@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import { fade } from "svelte/transition";
+  import { fade, scale } from "svelte/transition";
   import morseJson from "$lib/assets/data/data.json";
+  import MorseTable from "$lib/components/MorseTable.svelte";
 
   interface MorseTable {
     [key: string]: string;
@@ -31,6 +32,7 @@
   let letterTimeout: ReturnType<typeof setTimeout> | null = null;
   let copyMessage: string = "";
   let mode: Mode = "en";
+  let isModalOpen = false;
 
   // 入力された符号をスペースで分割して配列に変換
   $: codeArray = code.trim() ? code.trim().split(" ") : [];
@@ -130,6 +132,20 @@
     currentLetter = "";
   };
 
+  const openModal = () => {
+    isModalOpen = true;
+  };
+
+  const closeModal = () => {
+    isModalOpen = false;
+  };
+
+  const handleBackdropClick = (event: MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  };
+
   onMount(() => {
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
@@ -147,31 +163,56 @@
   });
 </script>
 
-<div>
+<div class="relative">
   <div class="mx-auto mb-8 p-4 md:p-8 max-w-4xl">
-    <!-- モード選択 -->
-    <div>
-      <label class="mr-4">
-        <input
-          type="radio"
-          name="mode"
-          value="en"
-          bind:group={mode}
-          class="mr-1"
-        />
-        欧文
-      </label>
-      <label>
-        <input
-          type="radio"
-          name="mode"
-          value="ja"
-          bind:group={mode}
-          class="mr-1"
-        />
-        和文
-      </label>
+    <!-- モード選択と符号表ボタン -->
+    <div class="flex justify-center items-center gap-4 mb-8">
+      <div class="rounded-lg bg-gray-200 p-1 shadow-inner">
+        <button
+          on:click={() => (mode = "en")}
+          class="px-6 py-2 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 {mode ===
+          'en'
+            ? 'bg-orange-400 text-white shadow-md'
+            : 'text-gray-600 hover:text-gray-800'}"
+          aria-pressed={mode === "en"}
+        >
+          欧文
+        </button>
+        <button
+          on:click={() => (mode = "ja")}
+          class="px-6 py-2 rounded-md text-sm font-medium cursor-pointer transition-all duration-200 {mode ===
+          'ja'
+            ? 'bg-orange-400 text-white shadow-md'
+            : 'text-gray-600 hover:text-gray-800'}"
+          aria-pressed={mode === "ja"}
+        >
+          和文
+        </button>
+      </div>
     </div>
+
+    <!-- 符号表表示ボタン -->
+    <button
+      on:click={openModal}
+      class="absolute top-0 right-0 m-3 px-4 py-2 text-sm bg-white border-2 border-orange-400 text-orange-400 rounded-md hover:bg-orange-400 hover:text-white shadow flex items-center gap-2 cursor-pointer"
+      aria-label="符号表を表示"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="size-4"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z"
+        />
+      </svg>
+      <p class="hidden md:block">符号表</p>
+    </button>
 
     <div
       class="relative mx-auto mb-8 w-full max-w-4xl rounded bg-white p-4 text-center"
@@ -381,3 +422,73 @@
     </p>
   </div>
 </div>
+
+{#if isModalOpen}
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+    on:click={handleBackdropClick}
+    on:keydown={(e) => e.key === "Escape" && closeModal()}
+    transition:fade={{ duration: 200 }}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    tabindex="-1"
+  >
+    <div
+      class="relative w-[90vw] md:w-[80vw] max-w-5xl bg-white rounded-lg shadow-xl overflow-hidden"
+    >
+      <div class="sticky top-0 bg-white px-3 md:px-6 pt-3 md:pt-4 pb-2 z-10">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex justify-center">
+            <div class="inline-flex rounded-lg bg-gray-200 p-1">
+              <button
+                on:click={() => (mode = "en")}
+                class="px-3 md:px-4 py-1 md:py-1.5 rounded-md text-xs md:text-sm font-medium cursor-pointer transition-all {mode ===
+                'en'
+                  ? 'bg-orange-400 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800'}"
+                aria-pressed={mode === "en"}
+              >
+                欧文
+              </button>
+              <button
+                on:click={() => (mode = "ja")}
+                class="px-3 md:px-4 py-1 md:py-1.5 rounded-md text-xs md:text-sm font-medium cursor-pointer transition-all {mode ===
+                'ja'
+                  ? 'bg-orange-400 text-white shadow-md'
+                  : 'text-gray-600 hover:text-gray-800'}"
+                aria-pressed={mode === "ja"}
+              >
+                和文
+              </button>
+            </div>
+          </div>
+          <button
+            on:click={closeModal}
+            class="text-gray-500 hover:text-gray-600 cursor-pointer"
+            aria-label="閉じる"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="size-5 md:size-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-2 md:p-4">
+        <MorseTable {mode} />
+      </div>
+    </div>
+  </div>
+{/if}
